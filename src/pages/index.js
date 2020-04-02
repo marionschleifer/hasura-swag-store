@@ -4,7 +4,7 @@ import get from 'lodash/get'
 import {Image, Header} from 'semantic-ui-react'
 import ProductList from '../components/ProductList'
 import SEO from '../components/SEO'
-import logo from '../images/ill-short-dark.svg'
+import logo from '../images/hasura_header.png'
 import Layout from '../components/Layout'
 
 const StoreIndex = ({location}) => {
@@ -15,29 +15,16 @@ const StoreIndex = ({location}) => {
           title
         }
       }
-      allMoltinProduct {
-        edges {
-          node {
-            id
+      hasura {
+        products {
+          name
+          unit_price
+          image_url
+          category {
             name
-            description
-            mainImageHref
-            meta {
-              display_price {
-                with_tax {
-                  amount
-                  currency
-                  formatted
-                }
-              }
-            }
-            mainImage {
-              childImageSharp {
-                sizes(maxWidth: 600) {
-                  ...GatsbyImageSharpSizes
-                }
-              }
-            }
+          }
+          product_variants {
+            name
           }
         }
       }
@@ -45,8 +32,7 @@ const StoreIndex = ({location}) => {
   `)
 
   const siteTitle = get(data, 'site.siteMetadata.title')
-  const products = get(data, 'allMoltinProduct.edges')
-  const filterProductsWithoutImages = products.filter(v => v.node.mainImageHref)
+  const products = get(data, 'hasura.products')
   return (
     <Layout location={location}>
       <SEO title={siteTitle} />
@@ -67,7 +53,7 @@ const StoreIndex = ({location}) => {
           <Image src={logo} alt="logo" />
         </Header.Content>
       </Header>
-      <ProductList products={filterProductsWithoutImages} />
+      <ProductList products={products} />
     </Layout>
   )
 }
