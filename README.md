@@ -2,7 +2,7 @@
 
 Frontend for the Hasura swag store using Gatsby.
 
-## Getting started 🚀
+### Getting started 🚀
 
 #### Fork the repo
 
