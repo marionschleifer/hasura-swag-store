@@ -9,6 +9,7 @@ const mapProductsToItems = products =>
     product.product_variants.forEach(element => {
       variants.push(element.name)
     })
+    console.log(variants)
 
     return {
       as: Link,
@@ -18,7 +19,7 @@ const mapProductsToItems = products =>
       header: product.name,
       meta: (
         <Card.Meta style={{color: 'dimgray'}}>
-          {'Available in: ' + variants}
+          {variants.length != 0 && 'Available in: ' + variants}
           <br></br>
           {'Price: $' + product.unit_price}
         </Card.Meta>

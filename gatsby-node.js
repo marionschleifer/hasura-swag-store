@@ -18,6 +18,7 @@ exports.createPages = ({graphql, actions}) => {
                 }
                 name
                 description
+                material
                 unit_price
                 image_url
                 id

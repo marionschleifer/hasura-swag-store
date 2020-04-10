@@ -19,6 +19,8 @@ const StoreIndex = ({location}) => {
         products {
           id
           name
+          description
+          material
           unit_price
           image_url
           category {

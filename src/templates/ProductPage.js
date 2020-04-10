@@ -43,6 +43,7 @@ export const pageQuery = graphql`
         }
         name
         description
+        material
         unit_price
         image_url
         id
