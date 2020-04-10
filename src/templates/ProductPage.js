@@ -18,6 +18,7 @@ class ProductPageTemplate extends React.PureComponent {
       mainImage: image,
       unitPrice: data.unit_price,
       category: data.category.name,
+      description: data.description,
       header: data.name,
     }
 
@@ -41,6 +42,7 @@ export const pageQuery = graphql`
           name
         }
         name
+        description
         unit_price
         image_url
         id
