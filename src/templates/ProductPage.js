@@ -9,26 +9,20 @@ import Layout from '../components/Layout'
 
 class ProductPageTemplate extends React.PureComponent {
   render() {
-    const productInfo = get(this, 'props.data.allMoltinProduct')
-    const data = productInfo.edges[0].node
-    const slug = data.slug
-    const image = get(data, 'mainImageHref')
-    const sizes = get(data, 'mainImage.childImageSharp.sizes')
+    const productInfo = get(this, 'props.data.hasura.products')
+    const data = productInfo[0]
+    const image = data.image_url
     const product = {
       ...data,
       id: data.id,
-      image,
-      mainImage: data.mainImage,
+      mainImage: image,
+      unitPrice: data.unit_price,
+      category: data.category.name,
       header: data.name,
-      meta: data.meta,
-      sku: data.sku,
     }
-
-    if (!sizes) return null
 
     return (
       <Layout location={this.props.location}>
-        <SEO title={slug} />
         <ProductSummary {...product} />
         <ProductAttributes {...product} />
       </Layout>
@@ -39,37 +33,19 @@ class ProductPageTemplate extends React.PureComponent {
 export default ProductPageTemplate
 
 export const pageQuery = graphql`
-  query ProductsQuery($id: String!) {
-    allMoltinProduct(filter: {id: {eq: $id}}) {
-      edges {
-        node {
-          id
-          name
-          description
-          meta {
-            display_price {
-              with_tax {
-                amount
-                currency
-                formatted
-              }
-            }
-          }
-          mainImageHref
-          mainImage {
-            childImageSharp {
-              sizes(maxWidth: 400) {
-                ...GatsbyImageSharpSizes
-              }
-            }
-          }
-          slug
-          material
-          max_watt
-          bulb_qty
-          bulb
+  query ProductsQuery($id: HASURA_uuid!) {
+    hasura {
+      products(where: {id: {_eq: $id}}) {
+        product_variants {
           sku
-          finish
+          name
+        }
+        name
+        unit_price
+        image_url
+        id
+        category {
+          name
         }
       }
     }

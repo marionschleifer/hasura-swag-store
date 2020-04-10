@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import {Input, Icon, Transition} from 'semantic-ui-react'
+import {Input, Icon, Transition, Dropdown} from 'semantic-ui-react'
 import CartContext from '../Context/CartContext'
 
 const Moltin = require('../../../lib/moltin')
@@ -51,8 +51,21 @@ const AddToCart = ({productId}) => {
 
   const handleChange = ({target: {value}}) => setQuantity(value)
 
+  // const variants =
+
+  // const sizes = [
+  //   {key: 's', text: 'S', value: 's'},
+  //   {key: 'm', text: 'M', value: 'm'},
+  //   {key: 'l', text: 'L', value: 'l'},
+  //   {key: 'xl', text: 'XL', value: 'xl'},
+  // ]
   return (
     <>
+      <Dropdown
+        name="size"
+        placeholder="choose size"
+        // options={sizes}
+      ></Dropdown>
       <Input
         type="number"
         placeholder="Quantity"

@@ -1,8 +1,8 @@
 const Promise = require('bluebird')
 const path = require('path')
 
-exports.createPages = ({ graphql, actions }) => {
-  const { createPage } = actions
+exports.createPages = ({graphql, actions}) => {
+  const {createPage} = actions
 
   return new Promise((resolve, reject) => {
     const productPageTemplate = path.resolve('src/templates/ProductPage.js')
@@ -10,36 +10,44 @@ exports.createPages = ({ graphql, actions }) => {
       graphql(
         `
           {
-            allMoltinProduct {
-              edges {
-                node {
-                  id
+            hasura {
+              products {
+                product_variants {
+                  sku
+                  name
+                }
+                name
+                unit_price
+                image_url
+                id
+                category {
+                  name
                 }
               }
             }
           }
-        `
+        `,
       ).then(result => {
         if (result.errors) {
           console.log(result.errors)
           reject(result.errors)
         }
-        result.data.allMoltinProduct.edges.forEach(edge => {
+        result.data.hasura.products.forEach(product => {
           createPage({
-            path: `/product/${edge.node.id}/`,
+            path: `/product/${product.id}/`,
             component: productPageTemplate,
             context: {
-              id: edge.node.id,
+              id: product.id,
             },
           })
         })
-      })
+      }),
     )
   })
 }
 
-exports.onCreateWebpackConfig = ({ actions }) => {
+exports.onCreateWebpackConfig = ({actions}) => {
   actions.setWebpackConfig({
-    node: { fs: 'empty' },
+    node: {fs: 'empty'},
   })
 }

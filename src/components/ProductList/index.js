@@ -1,24 +1,27 @@
 /* eslint-disable camelcase */
 import React from 'react'
 import {Card, Image} from 'semantic-ui-react'
-import Img from 'gatsby-image'
 import {Link} from 'gatsby'
 
 const mapProductsToItems = products =>
   products.map(product => {
-    const price = product.unit_price.formatted || null
+    const variants = []
+    product.product_variants.forEach(element => {
+      variants.push(element.name)
+    })
+
     return {
       as: Link,
       to: `/product/${product.id}/`,
       childKey: product.id,
-      // image: (
-      //   <Image>
-      //     <Img href={product.image_url} alt={product.name} />
-      //   </Image>
-      // ),
+      image: <Image src={product.image_url} size="large" />,
       header: product.name,
       meta: (
-        <Card.Meta style={{color: 'dimgray'}}>{product.unit_price}</Card.Meta>
+        <Card.Meta style={{color: 'dimgray'}}>
+          {'Available in: ' + variants}
+          <br></br>
+          {'Price: $' + product.unit_price}
+        </Card.Meta>
       ),
     }
   })

@@ -17,6 +17,7 @@ const StoreIndex = ({location}) => {
       }
       hasura {
         products {
+          id
           name
           unit_price
           image_url
